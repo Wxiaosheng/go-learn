@@ -1,6 +1,8 @@
 package homework
 
 import (
+	"math"
+	"slices"
 	"strconv"
 )
 
@@ -150,9 +152,134 @@ func LongestCommonPrefix(strs []string) string {
 	return long
 }
 
-/*
-*
- */
-// func plusOne(digits []int) []int {
+/*加一 */
+func PlusOne(digits []int) []int {
+	plus := 1
 
-// }
+	// 从后向前遍历
+	for i := len(digits) - 1; i >= 0; i-- {
+		if digits[i] == 9 {
+			digits[i] = 0
+		} else {
+			digits[i] += plus
+			plus = 0
+		}
+	}
+
+	if plus == 1 {
+		return append([]int{1}, digits...)
+	}
+
+	return digits
+
+}
+
+func PlusOneV2(digits []int) []int {
+	for i := len(digits) - 1; i >= 0; i-- {
+		if digits[i] == 9 {
+			digits[i] = 0
+		} else {
+			digits[i] += 1
+			return digits
+		}
+	}
+
+	return append([]int{1}, digits...)
+}
+
+func PlusOneV3(digits []int) []int {
+	// 用递归改实现
+	return Plus(digits, len(digits)-1)
+}
+
+func Plus(digits []int, index int) []int {
+	if index < 0 {
+		return append([]int{1}, digits...)
+	}
+	if digits[index] == 9 {
+		digits[index] = 0
+		return Plus(digits, index-1)
+	} else {
+		digits[index] += 1
+		return digits
+	}
+}
+
+/* 删除有序数组中的重复项 */
+func RemoveDuplicates(nums []int) int {
+	if len(nums) == 1 {
+		return 1
+	}
+	// 双指针 i, j
+	i := 0
+	for j := i; j < len(nums); j++ {
+		if nums[i] != nums[j] {
+			i++
+			nums[i] = nums[j]
+		}
+	}
+	return i + 1
+}
+
+func Merge(intervals [][]int) [][]int {
+	if len(intervals) == 1 {
+		return intervals
+	}
+
+	return MergeLoop(intervals, 1)
+}
+
+/** 合并区间*/
+func MergeLoop(intervals [][]int, index int) [][]int {
+
+	// 如果遍历到最后一个元素，则返回结果
+	if index >= len(intervals) {
+		return intervals
+	}
+
+	loop := false
+	result := [][]int{}
+
+	result = append(result, intervals[0])
+	// 一次确定一个范围
+	for i := 1; i < len(intervals); i++ {
+		overlap := IsOverlap(result[0], intervals[i])
+		if overlap {
+			// 合并
+			min := math.Min(float64(result[0][0]), float64(intervals[i][0]))
+			max := math.Max(float64(result[0][1]), float64(intervals[i][1]))
+			result[0] = []int{int(min), int(max)}
+		} else {
+			// 复制无交集的区间
+			result = append(result, intervals[i])
+			loop = true
+		}
+	}
+
+	// 如果还有交集，则继续遍历
+	if loop {
+		return MergeLoop(result, index+1)
+	} else {
+		return result
+	}
+}
+
+// 如果 a 的开始结束都不在b中，则不重叠
+func IsOverlap(a []int, b []int) bool {
+	left := a[0] >= b[0] && a[0] <= b[1]
+	right := a[1] >= b[0] && a[1] <= b[1]
+	return left || right
+}
+
+/* 两数之和 */
+func TwoSum(nums []int, target int) []int {
+	for i := 0; i < len(nums)-1; i++ {
+		// 从 i+1查起，后后续数组中是否存在 targt - nums[i]
+		idx := slices.Index(nums[i+1:], target-nums[i])
+
+		if idx != -1 {
+			return []int{i, i + 1 + idx}
+		}
+	}
+	return []int{}
+}
