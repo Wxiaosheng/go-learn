@@ -10,6 +10,9 @@ func main() {
 	// homework.ExectTask01()
 
 	// 任务二
-	homework.ExectTask02()
+	// homework.ExectTask02()
 
+	// 任务三
+	// homework.Task03()
+	homework.Test03_2()
 }
