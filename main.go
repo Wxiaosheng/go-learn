@@ -1,7 +1,8 @@
 package main
 
 import (
-	"go-learn/homework"
+	"go-learn/db"
+	"go-learn/web"
 )
 
 func main() {
@@ -14,5 +15,11 @@ func main() {
 
 	// 任务三
 	// homework.Task03()
-	homework.Test03_2()
+	// homework.Test03_2()
+
+	// 初始化表结构
+	db.InitDB()
+
+	// 初始化 web 服务
+	web.InitService()
 }
