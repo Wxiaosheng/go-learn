@@ -12,13 +12,20 @@ type User struct {
 	Email    string `gorm:"uniqueIndex"`
 }
 
-/*
-获取用户信息
-*/
-func GetUserInfo(id int) *User {
+/* 获取用户信息 */
+func GetUserInfoById(id int) *User {
 	var user User
 	result := sqlDB.First(&user, id)
 	if result.Error != nil {
+		return nil
+	}
+	return &user
+}
+
+/* 获取用户信息 */
+func GetUserInfoByName(name string) *User {
+	var user User
+	if result := sqlDB.Where("username = ?", name).First(&user); result.Error != nil {
 		return nil
 	}
 	return &user
