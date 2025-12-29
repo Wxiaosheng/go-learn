@@ -18,6 +18,7 @@ func InitService() {
 	service.Use(middleware.JwtAuthMiddleware())
 
 	InitUserRoutes(service)
+	InitPostRoutes(service)
 
 	service.Run(":8080")
 }

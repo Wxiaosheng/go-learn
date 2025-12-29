@@ -20,6 +20,8 @@ func InitDB() {
 
 	db.AutoMigrate(&User{})
 
+	db.AutoMigrate(&Post{})
+
 	// db.Create(&User{ID: 1, Username: "Victree", Email: "alice@example.com"})
 	// var u User
 	// db.Find(&u)

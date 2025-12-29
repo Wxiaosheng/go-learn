@@ -34,7 +34,7 @@ func InitUserRoutes(service *gin.Engine) {
 	})
 
 	// 用户注册
-	service.POST("/user/sign", func(ctx *gin.Context) {
+	service.POST("/sign", func(ctx *gin.Context) {
 		var userData UserData
 		if err := ctx.ShouldBindJSON(&userData); err != nil {
 			ctx.JSON(400, gin.H{"msg": "JSON 解析失败"})
@@ -52,7 +52,7 @@ func InitUserRoutes(service *gin.Engine) {
 	})
 
 	// 用户登录
-	service.POST("/user/login", func(ctx *gin.Context) {
+	service.POST("/login", func(ctx *gin.Context) {
 		var user UserData
 		if err := ctx.ShouldBindJSON(&user); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"msg": "JSON 解析失败"})
