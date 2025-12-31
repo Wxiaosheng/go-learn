@@ -1,25 +1,18 @@
 package main
 
 import (
-	"go-learn/db"
-	"go-learn/web"
+	"fmt"
+	"go-learn/global"
+	"go-learn/initial"
 )
 
 func main() {
+	/* 初始化服务基础设施 */
 
-	// 任务一
-	// homework.ExectTask01()
+	initial.InitViper() // 初始化 Viper 配置
 
-	// 任务二
-	// homework.ExectTask02()
+	fmt.Printf("%+v", global.BLOGS_CONFIG)
 
-	// 任务三
-	// homework.Task03()
-	// homework.Test03_2()
-
-	// 初始化表结构
-	db.InitDB()
-
-	// 初始化 web 服务
-	web.InitService()
+	// 启动 web 服务
+	fmt.Printf("启动服务")
 }
