@@ -1,3 +1,15 @@
+system:
+  port: 8080
+  db-type: mysql
+
+zap:
+  level: info
+  prefix: '[victree/blogs]'
+  format: json
+  director: ./logs
+  encode-level: capitalcolor
+  show-line: true
+  log-in-console: false
 
 mysql:
   host: localhost
