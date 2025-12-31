@@ -17,6 +17,10 @@ mysql:
   user: root
   password: root
   dbname: blog
+  charset: utf8mb4
+  timeout: 30
+  max-idle: 10
+  max-open: 100
 
 sqlite:
   path: ./blog.db
