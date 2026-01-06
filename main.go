@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"go-learn/global"
 	"go-learn/initial"
 )
 
@@ -14,7 +13,7 @@ func main() {
 	initial.InitGorm()   // 初始化 Gorm ORM
 	initial.InitTables() // 初始化数据库表
 
-	global.BLOGS_LOG.Info("配置文件和日志初始化完成")
 	// 启动 web 服务
-	fmt.Printf("启动服务")
+	fmt.Printf("启动服务...\n")
+	initial.InitService()
 }

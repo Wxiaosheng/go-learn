@@ -1,6 +1,7 @@
 system:
   port: 8080
   db-type: mysql
+  router-prefix: ''
 
 zap:
   level: info
