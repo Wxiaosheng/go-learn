@@ -29,6 +29,7 @@ func (us *UserService) UserSign(u *model.User) error {
 
 /* 用户登陆 */
 func (us *UserService) UserLogin(u *model.User) (string, error) {
+	originPassword := u.Password
 	// 1、根据用户名获取用户信息
 	user := u.GetUserInfoByName()
 	if user == nil {
@@ -36,7 +37,7 @@ func (us *UserService) UserLogin(u *model.User) (string, error) {
 	}
 
 	// 2、验证密码
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(u.Password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(originPassword)); err != nil {
 		return "", errors.New("密码错误")
 	}
 
