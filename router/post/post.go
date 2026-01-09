@@ -13,4 +13,11 @@ func (pr *PostRouter) InitPostRouter(Router *gin.RouterGroup) {
 		postRouter.POST("/getPost", postApi.GetPostInfo)
 		postRouter.POST("/delete", postApi.DeletePost)
 	}
+
+	// 评论相关路由
+	commentRouter := postRouter.Group("/comment")
+	{
+		commentRouter.POST("/", postApi.CreateComment)       // 添加评论
+		commentRouter.POST("/list", postApi.GetCommentsList) // 获取评论列表
+	}
 }

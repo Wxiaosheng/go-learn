@@ -45,6 +45,10 @@ func (ps *PostService) UpdatePost(post *model.Post) error {
 }
 
 /* 删除文章 */
-func (ps *PostService) DeletePost() {
-
+func (ps *PostService) DeletePost(post *model.Post) error {
+	result := global.BLOGS_DB.Delete(post)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }

@@ -58,6 +58,9 @@ func InitTables() {
 
 		/* 文章管理 */
 		&model.Post{},
+
+		/* 评论管理 */
+		&model.Comment{},
 	)
 
 	if err != nil {

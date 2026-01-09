@@ -46,7 +46,6 @@ func (pa *PostApi) UpdatePost(ctx *gin.Context) {
 		postService.UpdatePost(post)
 		ctx.JSON(http.StatusOK, gin.H{"msg": "文章更新成功"})
 	}
-
 }
 
 // 实现文章的读取功能，支持获取所有文章列表和单个文章的详细信息。
@@ -98,4 +97,47 @@ func getPostId(ctx *gin.Context) (int, error) {
 		return 0, errors.New("缺少文章 ID")
 	}
 	return p.ID, nil
+}
+
+/* ============= 评论模块 ============= */
+/* 添加评论 */
+func (pa *PostApi) CreateComment(ctx *gin.Context) {
+	var commentData systemReq.CommentRes
+	if err := ctx.ShouldBindJSON(&commentData); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"msg": "JSON 解析失败"})
+		return
+	}
+	userId, _ := ctx.Get("userId")
+
+	comment := &model.Comment{
+		PostID:    commentData.PostID,
+		ParentID:  commentData.ParentID,
+		Content:   commentData.Content,
+		CreatedAt: time.Now().UnixMilli(),
+		UserID:    userId.(int),
+	}
+
+	if err := postService.CreateComment(comment); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"msg": "评论创建失败"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"msg": "评论创建成功"})
+}
+
+/* 获取评论列表 */
+func (pa *PostApi) GetCommentsList(ctx *gin.Context) {
+	var req systemReq.GetCommentsReq
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"msg": "JSON 解析失败"})
+		return
+	}
+
+	comments, err := postService.GetCommentsByPostId(req.PostID)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"msg": "获取评论失败"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, comments)
 }
