@@ -1,0 +1,27 @@
+system:
+  port: 8080
+  db-type: mysql
+  router-prefix: ''
+
+zap:
+  level: info
+  prefix: '[victree/blogs]'
+  format: json
+  director: ./logs
+  encode-level: capitalcolor
+  show-line: true
+  log-in-console: false
+
+mysql:
+  host: localhost
+  port: 3306
+  user: root
+  password: root
+  dbname: blog
+  charset: utf8mb4
+  timeout: 30
+  max-idle: 10
+  max-open: 100
+
+sqlite:
+  path: ./blog.db
