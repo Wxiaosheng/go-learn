@@ -38,12 +38,7 @@ func (pa *PostApi) UpdatePost(ctx *gin.Context) {
 	} else {
 		// 更新文章
 		// 仅作者才能更新
-		err := postService.GetPostById(post)
-		if err != nil {
-			ctx.JSON(http.StatusNotFound, err.Error())
-			return
-		}
-		if post.UserID != userId.(int) {
+		if !postService.IsPostOwner(post.ID, userId.(int)) {
 			ctx.JSON(http.StatusForbidden, gin.H{"msg": "无权更新此文章"})
 			return
 		}
@@ -82,12 +77,7 @@ func (pa *PostApi) DeletePost(ctx *gin.Context) {
 
 	post := &model.Post{ID: postId}
 
-	if err := postService.GetPostById(post); err != nil {
-		ctx.JSON(http.StatusNotFound, err.Error())
-		return
-	}
-
-	if post.UserID != userId.(int) {
+	if !postService.IsPostOwner(post.ID, userId.(int)) {
 		ctx.JSON(http.StatusForbidden, gin.H{"msg": "无权删除此文章"})
 		return
 	}

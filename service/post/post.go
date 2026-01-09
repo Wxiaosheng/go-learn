@@ -7,6 +7,16 @@ import (
 
 type PostService struct{}
 
+/* 根据文章ID判断当前用户是否是所有者 */
+func (ps *PostService) IsPostOwner(postId int, userId int) bool {
+	var post model.Post
+	result := global.BLOGS_DB.First(&post, postId)
+	if result.Error != nil {
+		return false
+	}
+	return post.UserID == userId
+}
+
 /* 获取文章 */
 func (ps *PostService) GetPostById(post *model.Post) error {
 	result := global.BLOGS_DB.First(&post, post.ID)
